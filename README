@@ -1,0 +1,17 @@
+# Class: ssh
+#   This module manages ssh
+#
+# Definition:
+#   -
+#
+# Parameters:
+#   -
+#
+# Actions:
+#   Installs the authorized_keys, sshd_config
+#
+# Requires:
+#   -
+#
+# Sample Usage:
+#   -
