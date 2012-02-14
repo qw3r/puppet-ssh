@@ -1,8 +1,3 @@
-#
-# THIS FILE IS MANAGED BY PUPPET
-# /etc/puppet/modules/production/ssh/files/squeeze/etc/ssh/sshd_config
-#
-
 # Package generated configuration file
 # See the sshd_config(5) manpage for details
 
@@ -15,6 +10,7 @@ Protocol 2
 # HostKeys for protocol version 2
 HostKey /etc/ssh/ssh_host_rsa_key
 HostKey /etc/ssh/ssh_host_dsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
 #Privilege Separation is turned on for security
 UsePrivilegeSeparation yes
 
@@ -28,12 +24,12 @@ LogLevel INFO
 
 # Authentication:
 LoginGraceTime 120
-PermitRootLogin without-password
+PermitRootLogin no
 StrictModes yes
 
 RSAAuthentication yes
 PubkeyAuthentication yes
-AuthorizedKeysFile %h/.ssh/authorized_keys
+#AuthorizedKeysFile     %h/.ssh/authorized_keys
 
 # Don't read the user's ~/.rhosts and ~/.shosts files
 IgnoreRhosts yes
@@ -52,7 +48,7 @@ PermitEmptyPasswords no
 ChallengeResponseAuthentication no
 
 # Change to no to disable tunnelled clear text passwords
-PasswordAuthentication no
+#PasswordAuthentication yes
 
 # Kerberos options
 #KerberosAuthentication no
@@ -69,6 +65,9 @@ X11DisplayOffset 10
 PrintMotd no
 PrintLastLog yes
 TCPKeepAlive yes
+KeepAlive Yes
+ClientAliveInterval 30
+ClientAliveCountMax 4
 #UseLogin no
 
 #MaxStartups 10:30:60
@@ -89,3 +88,7 @@ Subsystem sftp /usr/lib/openssh/sftp-server
 # PAM authentication, then enable this but set PasswordAuthentication
 # and ChallengeResponseAuthentication to 'no'.
 UsePAM yes
+
+<% if t_allow_users.size > 0 -%>
+AllowUsers <%= t_allow_users.join " " %>
+<% end -%>
