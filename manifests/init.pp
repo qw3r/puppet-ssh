@@ -10,14 +10,14 @@ class ssh {
 		    group   => root,
 		    mode    => 0644,
 		    alias   => "sshd_config",
-		    source  => "puppet:///modules/ssh/${::lsbdistcodename}/etc/ssh/sshd_config",
+		    content => template("ssh/etc/ssh/sshd_config"),
 		    notify  => Service["ssh"],
 		    require => Package["openssh-server"],
 		}
 	}
 	
 	ssh::allow_users { "/etc/ssh/sshd_config":
-	    allow_users => hiera('allow_users'),
+	    allow_users => hiera_array('allow_users'),
 	}
 
 	package { "openssh-server":
